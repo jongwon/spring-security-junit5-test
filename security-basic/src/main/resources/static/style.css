@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+}
+
+ul li {
+    justify-content: space-between;
+    align-items: center;
+    background-color: #196ba2;
+    color: white;
+    border-radius: 0.5em;
+    cursor: pointer;
+    margin: 1em;
+}
+ul li:hover {
+    background-color: #4991c3;
+}
+
+ul li a {
+    display: inline-block;
+    padding: 1em;
+    text-decoration: none;
+    color: white;
+}
+
