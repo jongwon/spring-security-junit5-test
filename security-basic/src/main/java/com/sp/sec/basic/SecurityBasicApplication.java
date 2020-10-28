@@ -15,8 +15,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityBasicApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SecurityBasicApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SecurityBasicApplication.class, args);
+    }
 
 }

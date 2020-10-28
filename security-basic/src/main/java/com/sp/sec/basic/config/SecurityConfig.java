@@ -16,7 +16,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
-    UserDetailsService users(){
+    UserDetailsService users() {
         UserDetails user1 = User.builder()
                 .username("user1")
                 .password(passwordEncoder().encode("1234"))
@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -42,18 +42,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .formLogin(config->{
+                .formLogin(config -> {
                     config.loginPage("/login")
 //                    .successForwardUrl("/") // requestCache
-                    .failureForwardUrl("/login?error=true");
+                            .failureForwardUrl("/login?error=true");
                 })
-                .authorizeRequests(config->{
+                .authorizeRequests(config -> {
                     config.antMatchers("/login")
                             .permitAll()
                             .antMatchers("/")
                             .authenticated()
                     ;
                 })
-                ;
+        ;
     }
 }

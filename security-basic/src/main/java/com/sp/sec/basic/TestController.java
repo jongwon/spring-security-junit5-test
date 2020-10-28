@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping(value="/user")
-    public SecurityMessage user(){
+    @GetMapping(value = "/user")
+    public SecurityMessage user() {
         return SecurityMessage.builder()
                 .message("user page")
                 .auth(SecurityContextHolder.getContext().getAuthentication()).build();
     }
 
     @Secured({"ROLE_ADMIN"})
-    @GetMapping(value="/admin")
-    public SecurityMessage admin(){
+    @GetMapping(value = "/admin")
+    public SecurityMessage admin() {
         return SecurityMessage.builder()
                 .message("admin page")
                 .auth(SecurityContextHolder.getContext().getAuthentication()).build();

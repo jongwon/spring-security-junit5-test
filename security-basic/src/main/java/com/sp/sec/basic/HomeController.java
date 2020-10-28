@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @RequestMapping("/")
-    public String home(){
+    public String home() {
         return "index";
     }
 
@@ -20,8 +20,8 @@ public class HomeController {
     public String login(
             @RequestParam(defaultValue = "false") Boolean error,
             Model model
-    ){
-        if(error){
+    ) {
+        if (error) {
             model.addAttribute("errorMessage", "아이디나 패스워드가 올바르지 않습니다.");
         }
         return "login";

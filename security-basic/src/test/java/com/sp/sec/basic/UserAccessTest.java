@@ -29,7 +29,7 @@ public class UserAccessTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    UserDetails user1(){
+    UserDetails user1() {
         return User.builder()
                 .username("user1")
                 .password(passwordEncoder.encode("1234"))
@@ -37,14 +37,13 @@ public class UserAccessTest {
                 .build();
     }
 
-    UserDetails admin(){
+    UserDetails admin() {
         return User.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("1234"))
                 .roles("ADMIN")
                 .build();
     }
-
 
 
     @DisplayName("1. user 로 user 페이지를 접근할 수 있다.")
