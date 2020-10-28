@@ -1,12 +1,10 @@
-package com.sp.sec.basic;
+package com.sp.sec.web.controller;
 
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class HomeController {
@@ -24,12 +22,7 @@ public class HomeController {
         if (error) {
             model.addAttribute("errorMessage", "아이디나 패스워드가 올바르지 않습니다.");
         }
-        return "loginForm";
+        return "login";
     }
 
-
-//    @GetMapping(value="/hello")
-//    public String hello(){
-//        return "hello jongwon";
-//    }
 }

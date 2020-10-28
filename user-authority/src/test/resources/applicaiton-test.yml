@@ -1,0 +1,8 @@
+
+spring:
+  security:
+    mongodb:
+      database: user-authority
+      host: localhost
+      port: 0
+

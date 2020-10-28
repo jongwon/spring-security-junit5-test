@@ -1,0 +1,9 @@
+server:
+  port: 8096
+spring:
+  data:
+    mongodb:
+      database: user-test-web
+      host: localhost
+      port: 27018
+
