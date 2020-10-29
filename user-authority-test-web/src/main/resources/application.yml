@@ -1,0 +1,9 @@
+server:
+  port: 8097
+spring:
+  data:
+    mongodb:
+      database: user-auth-test-web
+      host: localhost
+      port: 27018
+

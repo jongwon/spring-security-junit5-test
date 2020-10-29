@@ -1,8 +1,8 @@
 
 spring:
-  security:
+  data:
     mongodb:
       database: user-authority
       host: localhost
-      port: 0
+      port: 1111
 

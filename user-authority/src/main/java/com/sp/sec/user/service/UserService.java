@@ -5,6 +5,8 @@ import com.sp.sec.user.domain.Authority;
 import com.sp.sec.user.domain.User;
 import com.sp.sec.user.repository.UserRepository;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
@@ -77,6 +79,14 @@ public class UserService implements UserDetailsService {
         update.set("updated", LocalDateTime.now());
         return mongoTemplate.updateFirst(Query.query(Criteria.where("userId").is(userId)),
                 update, User.class).wasAcknowledged();
+    }
+
+    public void clearUsers() {
+        userRepository.deleteAll();
+    }
+
+    public Page<User> listUsers(Integer page, Integer size) {
+        return userRepository.findAll(PageRequest.of(page-1, size));
     }
 
 }
