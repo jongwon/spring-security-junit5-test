@@ -7,3 +7,8 @@ spring:
       database: jwt-user-web
       host: localhost
       port: 27018
+
+sp:
+  jwt:
+    secret: product-secret
+    token-life-time: 600

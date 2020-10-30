@@ -9,9 +9,19 @@ import java.time.Instant;
 
 public class JWTUtil {
 
-    private String secret = "hello";
-    private Algorithm AL = Algorithm.HMAC512(secret);
-    private long lifeTime = 30;
+    public static final String AUTH_HEADER = "Authentication";
+    public static final String BEARER = "Bearer ";
+
+    private Algorithm AL;
+    private long lifeTime;
+
+    SpJwtProperties properties;
+
+    public JWTUtil(SpJwtProperties properties){
+        this.properties = properties;
+        this.AL = Algorithm.HMAC512(properties.getSecret());
+        this.lifeTime = properties.getTokenLifeTime();
+    }
 
     public String generate(String userId){
         return JWT.create().withSubject(userId)

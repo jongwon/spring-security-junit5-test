@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.sec.user.domain.Authority;
 import com.sp.sec.user.domain.User;
 import com.sp.sec.user.service.UserService;
+import com.sp.sec.web.config.JWTUtil;
 import com.sp.sec.web.config.UserLogin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -69,7 +70,7 @@ public class JWTLoginFilterTest {
 
         assertEquals(200, response.getStatusCodeValue());
 
-        System.out.println(response.getHeaders().get("Authentication"));
+        System.out.println(response.getHeaders().get(JWTUtil.AUTH_HEADER));
     }
 
 }

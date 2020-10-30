@@ -1,5 +1,6 @@
 package com.sp.sec.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,8 @@ public class User implements UserDetails {
     @Indexed(unique = true)
     private String email;
     private String name;
+
+    @JsonIgnore
     private String password;
 
     private boolean enabled;

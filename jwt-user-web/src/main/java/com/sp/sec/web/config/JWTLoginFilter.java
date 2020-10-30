@@ -46,7 +46,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             Authentication authResult) throws IOException, ServletException
     {
         User user = (User)authResult.getPrincipal();
-        response.addHeader("Authentication", "Bearer "+jwtUtil.generate(user.getUserId()));
+        response.addHeader(JWTUtil.AUTH_HEADER, JWTUtil.BEARER+jwtUtil.generate(user.getUserId()));
 //        super.successfulAuthentication(request, response, chain, authResult);
     }
 
