@@ -65,6 +65,12 @@
 			<version>3.11.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>user-authority</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
