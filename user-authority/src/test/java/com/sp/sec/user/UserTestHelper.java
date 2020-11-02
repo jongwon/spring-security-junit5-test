@@ -6,7 +6,9 @@ import com.sp.sec.user.domain.User;
 import com.sp.sec.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,14 +19,26 @@ public class UserTestHelper {
 
     private final UserService userService;
 
-    public User createUser(String name) throws DuplicateKeyException {
-        User user = User.builder()
+    public static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    public static User makeUser(String name){
+        return User.builder()
                 .name(name)
                 .email(name+"@test.com")
-                .password(name+"123")
+                .password(encoder.encode(name+"123"))
                 .enabled(true)
                 .build();
+    }
+
+    public User createUser(String name) throws DuplicateKeyException {
+        User user = makeUser(name);
         return userService.save(user);
+    }
+
+    public static User makeUser(String name, Authority... authorities){
+        User user = makeUser(name);
+        user.setAuthorities(Set.of(authorities));
+        return user;
     }
 
     public User createUser(String name, String... authorities){
@@ -40,7 +54,7 @@ public class UserTestHelper {
         assertTrue(user.isEnabled());
         assertEquals(name, user.getName());
         assertEquals(name+"@test.com", user.getEmail());
-        assertEquals(name+"123", user.getPassword());
+        assertNotNull(user.getPassword());
     }
 
     public void assertUser(User user, String name, String... authorities){
