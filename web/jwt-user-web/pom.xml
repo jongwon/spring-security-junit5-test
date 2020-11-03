@@ -70,7 +70,13 @@
 			<artifactId>user-authority</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>user-authority</artifactId>
+			<version>1.0.0</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.sp.sec</groupId>
 			<artifactId>sp-web-util</artifactId>

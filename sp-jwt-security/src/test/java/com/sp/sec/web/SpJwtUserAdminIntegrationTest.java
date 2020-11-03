@@ -11,6 +11,7 @@ public class SpJwtUserAdminIntegrationTest extends SpIntegrationTest{
 
     @Autowired
     protected UserService userService;
+    protected UserTestHelper userTestHelper;
 
     @Autowired
     protected PasswordEncoder passwordEncoder;
@@ -20,8 +21,9 @@ public class SpJwtUserAdminIntegrationTest extends SpIntegrationTest{
 
     void prepareUserAdmin(){
         userService.clearUsers();
-        this.USER1 = userService.save(UserTestHelper.makeUser("user1", Authority.USER));
-        this.ADMIN = userService.save(UserTestHelper.makeUser("admin", Authority.ADMIN));
+        userTestHelper = new UserTestHelper(userService, passwordEncoder);
+        this.USER1 = userService.save(userTestHelper.makeUser("user1", Authority.USER));
+        this.ADMIN = userService.save(userTestHelper.makeUser("admin", Authority.ADMIN));
     }
 
 }

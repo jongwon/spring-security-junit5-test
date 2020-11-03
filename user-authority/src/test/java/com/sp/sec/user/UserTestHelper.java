@@ -5,8 +5,10 @@ import com.sp.sec.user.domain.Authority;
 import com.sp.sec.user.domain.User;
 import com.sp.sec.user.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,13 +21,14 @@ public class UserTestHelper {
 
     private final UserService userService;
 
-    public static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    @Autowired
+    public PasswordEncoder passwordEncoder;
 
-    public static User makeUser(String name){
+    public User makeUser(String name){
         return User.builder()
                 .name(name)
                 .email(name+"@test.com")
-                .password(encoder.encode(name+"123"))
+                .password(passwordEncoder.encode(name+"123"))
                 .enabled(true)
                 .build();
     }
@@ -35,7 +38,7 @@ public class UserTestHelper {
         return userService.save(user);
     }
 
-    public static User makeUser(String name, Authority... authorities){
+    public User makeUser(String name, Authority... authorities){
         User user = makeUser(name);
         user.setAuthorities(Set.of(authorities));
         return user;

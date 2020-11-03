@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class UserAuthorityJpaTest {
     void before(){
         this.userRepository.deleteAll();
         this.userService = new UserService(mongoTemplate, userRepository);
-        this.testHelper = new UserTestHelper(userService);
+        this.testHelper = new UserTestHelper(userService, NoOpPasswordEncoder.getInstance());
     }
 
     @DisplayName("1. 사용자를 생성한다.")

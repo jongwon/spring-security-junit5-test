@@ -2,6 +2,7 @@ package com.sp.sec.web;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sp.sec.user.UserTestHelper;
 import com.sp.sec.user.domain.Authority;
 import com.sp.sec.user.domain.User;
 import com.sp.sec.user.service.UserService;
@@ -39,6 +40,8 @@ public class JWTLoginFilterTest {
 
     @Autowired
     private UserService userService;
+    private UserTestHelper userTestHelper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -51,20 +54,14 @@ public class JWTLoginFilterTest {
     @BeforeEach
     void before(){
         userService.clearUsers();
-        User user1 = User.builder()
-                .email("user1@test.com")
-                .name("user1")
-                .password(passwordEncoder.encode("1234"))
-                .authorities(Set.of(Authority.USER))
-                .enabled(true)
-                .build();
-        userService.save(user1);
+        this.userTestHelper = new UserTestHelper(userService, passwordEncoder);
+        userTestHelper.createUser("user1", Authority.ROLE_USER);
     }
 
     @DisplayName("1. jwt 로 로그인을 시도한다.")
     @Test
     void test_1() throws URISyntaxException {
-        UserLogin login = UserLogin.builder().username("user1@test.com").password("1234").build();
+        UserLogin login = UserLogin.builder().username("user1@test.com").password("user1123").build();
         HttpEntity<UserLogin> body = new HttpEntity<>(login);
         ResponseEntity<String> response = restTemplate.exchange(uri("/login"), HttpMethod.POST, body, String.class);
 

@@ -5,16 +5,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.sp.sec.user.domain.Authority;
 import com.sp.sec.user.domain.User;
-import com.sp.sec.user.service.UserService;
 import com.sp.sec.web.util.RestResponsePage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.net.URISyntaxException;
@@ -37,7 +34,7 @@ public class UserControllerIntegrationTest extends SpJwtUserAdminIntegrationTest
     @DisplayName("1. admin 유저는 userList 를 가져올 수 있다.")
     @Test
     void test_1() throws URISyntaxException, JsonProcessingException {
-        String accessToken = getToken("admin@test.com", "admin");
+        String accessToken = getToken("admin@test.com", "admin123");
         ResponseEntity<String> response = restTemplate.exchange(uri("/user/list"),
                 HttpMethod.GET, getAuthHeaderEntity(accessToken), String.class);
 
@@ -58,7 +55,7 @@ public class UserControllerIntegrationTest extends SpJwtUserAdminIntegrationTest
     void test_2() throws URISyntaxException, JsonProcessingException {
 
         // token
-        String accessToken = getToken("admin@test.com", "admin");
+        String accessToken = getToken("admin@test.com", "admin123");
 
         // user1 에게 admin 권한을 준다.
         ResponseEntity<String> response = restTemplate.exchange(uri(
