@@ -80,14 +80,14 @@
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.sp.sec</groupId>
-			<artifactId>sp-web-util</artifactId>
-			<version>1.0.0</version>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+            <groupId>com.sp.sec</groupId>
+            <artifactId>sp-web-util</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

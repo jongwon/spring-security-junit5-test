@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -62,6 +63,7 @@ public class JWTTokenTest {
 
     @DisplayName("1. JWT 토큰이 잘 만들어 진다.")
     @Test
+    @Disabled
     void test_() throws InterruptedException {
 
         Algorithm AL = Algorithm.HMAC256("hello");

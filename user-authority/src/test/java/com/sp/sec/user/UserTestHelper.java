@@ -5,12 +5,9 @@ import com.sp.sec.user.domain.Authority;
 import com.sp.sec.user.domain.User;
 import com.sp.sec.user.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,27 +18,16 @@ public class UserTestHelper {
 
     private final UserService userService;
 
-    @Autowired
-    public PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public User makeUser(String name){
-        return User.builder()
+    public User createUser(String name) throws DuplicateKeyException {
+        User user = User.builder()
                 .name(name)
                 .email(name+"@test.com")
                 .password(passwordEncoder.encode(name+"123"))
                 .enabled(true)
                 .build();
-    }
-
-    public User createUser(String name) throws DuplicateKeyException {
-        User user = makeUser(name);
         return userService.save(user);
-    }
-
-    public User makeUser(String name, Authority... authorities){
-        User user = makeUser(name);
-        user.setAuthorities(Set.of(authorities));
-        return user;
     }
 
     public User createUser(String name, String... authorities){
@@ -57,7 +43,7 @@ public class UserTestHelper {
         assertTrue(user.isEnabled());
         assertEquals(name, user.getName());
         assertEquals(name+"@test.com", user.getEmail());
-        assertNotNull(user.getPassword());
+//        assertEquals(name+"123", user.getPassword());
     }
 
     public void assertUser(User user, String name, String... authorities){

@@ -3,17 +3,30 @@ package com.sp.sec.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sp.sec.user.UserTestHelper;
 import com.sp.sec.user.domain.Authority;
 import com.sp.sec.user.domain.User;
+import com.sp.sec.user.service.UserService;
+import com.sp.sec.web.config.JWTUtil;
+import com.sp.sec.web.config.SpJwtProperties;
+import com.sp.sec.web.config.UserLogin;
 import com.sp.sec.web.util.RestResponsePage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,10 +44,22 @@ public class UserControllerIntegrationTest extends SpJwtUserAdminIntegrationTest
         prepareUserAdmin();
     }
 
+    @DisplayName("1-1. user1 은 자신의 정보를 조회할 수 있다.")
+    @Test
+    void test_1_1() throws URISyntaxException {
+        String accessToken = getToken("user1@test.com", "user1123");
+        ResponseEntity<User> response = restTemplate.exchange(uri("/user/"+USER1.getUserId()),
+                HttpMethod.GET, getAuthHeaderEntity(accessToken), User.class);
+
+        assertEquals(200, response.getStatusCodeValue());
+        userTestHelper.assertUser(response.getBody(), "user1");
+    }
+
     @DisplayName("1. admin 유저는 userList 를 가져올 수 있다.")
     @Test
     void test_1() throws URISyntaxException, JsonProcessingException {
         String accessToken = getToken("admin@test.com", "admin123");
+
         ResponseEntity<String> response = restTemplate.exchange(uri("/user/list"),
                 HttpMethod.GET, getAuthHeaderEntity(accessToken), String.class);
 

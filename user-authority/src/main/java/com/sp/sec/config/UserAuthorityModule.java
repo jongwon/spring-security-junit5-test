@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 @ComponentScan("com.sp.sec.user")
-//@EnableMongoRepositories(basePackages = {
-//        "com.sp.sec.user.repository"
-//})
+@EnableMongoRepositories(basePackages = {
+        "com.sp.sec.user.repository"
+})
 public class UserAuthorityModule {
 
 

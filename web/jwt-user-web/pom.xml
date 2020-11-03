@@ -70,6 +70,7 @@
 			<artifactId>user-authority</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.sp.sec</groupId>
 			<artifactId>user-authority</artifactId>
@@ -81,14 +82,14 @@
 			<groupId>com.sp.sec</groupId>
 			<artifactId>sp-web-util</artifactId>
 			<version>1.0.0</version>
+			<scope>compile</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>com.sp.sec</groupId>
-			<artifactId>sp-jwt-security</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
+        <dependency>
+            <groupId>com.sp.sec</groupId>
+            <artifactId>sp-jwt-security</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
 		<dependency>
 			<groupId>com.sp.sec</groupId>
 			<artifactId>sp-jwt-security</artifactId>
@@ -97,7 +98,7 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

@@ -15,8 +15,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 public class SpIntegrationTest {
 
@@ -28,6 +26,7 @@ public class SpIntegrationTest {
 
     protected RestTemplate restTemplate = new RestTemplate();
 
+
     protected URI uri(String path) throws URISyntaxException {
         return new URI(format("http://localhost:%d%s", port, path));
     }
@@ -38,7 +37,6 @@ public class SpIntegrationTest {
         HttpEntity<UserLogin> body = new HttpEntity<>(login);
         ResponseEntity<String> response = restTemplate.exchange(uri("/login"),
                 HttpMethod.POST, body, String.class);
-        assertEquals(200, response.getStatusCodeValue());
         return response.getHeaders().get(JWTUtil.AUTH_HEADER).get(0)
                 .substring(JWTUtil.BEARER.length());
     }
@@ -49,6 +47,5 @@ public class SpIntegrationTest {
         HttpEntity entity = new HttpEntity("", headers);
         return entity;
     }
-
 
 }
