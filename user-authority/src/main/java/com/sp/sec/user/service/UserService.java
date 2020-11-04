@@ -20,7 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -87,6 +93,12 @@ public class UserService implements UserDetailsService {
 
     public Page<User> listUsers(Integer page, Integer size) {
         return userRepository.findAll(PageRequest.of(page-1, size));
+    }
+
+    public Map<String, User> getUserMap(Collection<String> userIds){
+        if(userIds == null || userIds.isEmpty()) return new HashMap<>();
+        return StreamSupport.stream(userRepository.findAllById(userIds).spliterator(), false)
+                .collect(Collectors.toMap(User::getUserId, Function.identity()));
     }
 
 }
