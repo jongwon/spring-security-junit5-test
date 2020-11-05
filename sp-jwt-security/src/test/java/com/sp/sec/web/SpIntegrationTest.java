@@ -31,6 +31,9 @@ public class SpIntegrationTest {
         return new URI(format("http://localhost:%d%s", port, path));
     }
 
+    protected URI uri(String path, String... args) throws URISyntaxException {
+        return new URI(format("http://localhost:%d%s", port, format(path, args)));
+    }
 
     protected String getToken(String username, String password) throws URISyntaxException {
         UserLogin login = UserLogin.builder().username(username).password(password).build();
@@ -47,5 +50,13 @@ public class SpIntegrationTest {
         HttpEntity entity = new HttpEntity("", headers);
         return entity;
     }
+
+    protected HttpEntity getPostAuthHeaderEntity(String accessToken, Object object) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(JWTUtil.AUTH_HEADER, JWTUtil.BEARER+ accessToken);
+        HttpEntity entity = new HttpEntity(object, headers);
+        return entity;
+    }
+
 
 }

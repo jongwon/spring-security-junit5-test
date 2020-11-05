@@ -27,7 +27,7 @@ public class SpBoardTestHelper {
         return boardService.save(makeBoard(user, title, content));
     }
 
-    public void assertBoard(SpBoard board, User user, String title, String content){
+    public static void assertBoard(SpBoard board, User user, String title, String content){
         assertNotNull(board.getBoardId());
         assertNotNull(board.getCreated());
         assertNotNull(board.getUpdated());
@@ -48,7 +48,7 @@ public class SpBoardTestHelper {
         return boardService.addComment(boardId, makeComment(user, commentStr));
     }
 
-    public void assertComment(Comment comment, User user, String commentStr){
+    public static void assertComment(Comment comment, User user, String commentStr){
         assertNotNull(comment.getCreated());
         assertNotNull(comment.getCommentId());
         assertEquals(user.getUserId(), comment.getUserId());
@@ -57,7 +57,7 @@ public class SpBoardTestHelper {
     }
 
 
-    public void assertBoardSummary(SpBoardSummary summary,
+    public static void assertBoardSummary(SpBoardSummary summary,
                                    SpBoard board, int count){
         assertEquals(board.getBoardId(), summary.getBoardId());
         assertEquals(board.getTitle(), summary.getTitle());
