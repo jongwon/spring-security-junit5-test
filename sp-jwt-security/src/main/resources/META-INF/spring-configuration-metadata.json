@@ -1,0 +1,14 @@
+{
+  "groups": [{
+    "name": "sp.jwt",
+    "type": "com.sp.sec.web.config.SpJwtProperties"
+  }],
+  "properties": [{
+    "name": "sp.jwt.secret",
+    "type": "java.lang.String"
+  }, {
+    "name": "sp.jwt.token-life-time",
+    "type": "java.lang.Long"
+  }],
+  "hints": []
+}
