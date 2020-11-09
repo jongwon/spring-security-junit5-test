@@ -32,23 +32,24 @@ public class SpIntegrationTest {
     }
 
     protected URI uri(String path, String... args) throws URISyntaxException {
-        return new URI(format("http://localhost:%d%s", port, format(path, args)));
+        return uri(format(path, args));
     }
 
-    protected String getToken(String username, String password) throws URISyntaxException {
-        UserLogin login = UserLogin.builder().username(username).password(password).build();
+    protected Tokens getToken(String username, String password) throws URISyntaxException {
+        UserLogin login = UserLogin.builder().type(UserLogin.Type.login).username(username).password(password).build();
         HttpEntity<UserLogin> body = new HttpEntity<>(login);
         ResponseEntity<String> response = restTemplate.exchange(uri("/login"),
                 HttpMethod.POST, body, String.class);
+        return Tokens.builder().accessToken(getAccessToken(response)).build();
+    }
+
+    protected String getAccessToken(ResponseEntity<String> response) {
         return response.getHeaders().get(JWTUtil.AUTH_HEADER).get(0)
                 .substring(JWTUtil.BEARER.length());
     }
 
     protected HttpEntity getAuthHeaderEntity(String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(JWTUtil.AUTH_HEADER, JWTUtil.BEARER+ accessToken);
-        HttpEntity entity = new HttpEntity("", headers);
-        return entity;
+        return getPostAuthHeaderEntity(accessToken, null);
     }
 
     protected HttpEntity getPostAuthHeaderEntity(String accessToken, Object object) {
@@ -57,6 +58,5 @@ public class SpIntegrationTest {
         HttpEntity entity = new HttpEntity(object, headers);
         return entity;
     }
-
 
 }

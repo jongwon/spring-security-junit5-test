@@ -1,4 +1,4 @@
-package com.sp.sec.web.controller;
+package com.sp.sec.board.controller;
 
 import com.sp.sec.board.domain.Comment;
 import com.sp.sec.board.domain.SpBoard;
@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @RestController
 @RequestMapping("/board")

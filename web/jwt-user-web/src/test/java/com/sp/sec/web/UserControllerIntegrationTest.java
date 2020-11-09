@@ -47,7 +47,7 @@ public class UserControllerIntegrationTest extends SpJwtUserAdminIntegrationTest
     @DisplayName("1-1. user1 은 자신의 정보를 조회할 수 있다.")
     @Test
     void test_1_1() throws URISyntaxException {
-        String accessToken = getToken("user1@test.com", "user1123");
+        String accessToken = getToken("user1@test.com", "user1123").getAccessToken();
         ResponseEntity<User> response = restTemplate.exchange(uri("/user/"+USER1.getUserId()),
                 HttpMethod.GET, getAuthHeaderEntity(accessToken), User.class);
 
@@ -58,7 +58,7 @@ public class UserControllerIntegrationTest extends SpJwtUserAdminIntegrationTest
     @DisplayName("1. admin 유저는 userList 를 가져올 수 있다.")
     @Test
     void test_1() throws URISyntaxException, JsonProcessingException {
-        String accessToken = getToken("admin@test.com", "admin123");
+        String accessToken = getToken("admin@test.com", "admin123").getAccessToken();
 
         ResponseEntity<String> response = restTemplate.exchange(uri("/user/list"),
                 HttpMethod.GET, getAuthHeaderEntity(accessToken), String.class);
@@ -80,7 +80,7 @@ public class UserControllerIntegrationTest extends SpJwtUserAdminIntegrationTest
     void test_2() throws URISyntaxException, JsonProcessingException {
 
         // token
-        String accessToken = getToken("admin@test.com", "admin123");
+        String accessToken = getToken("admin@test.com", "admin123").getAccessToken();
 
         // user1 에게 admin 권한을 준다.
         ResponseEntity<String> response = restTemplate.exchange(uri(

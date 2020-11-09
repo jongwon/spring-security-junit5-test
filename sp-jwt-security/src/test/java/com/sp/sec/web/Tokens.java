@@ -1,5 +1,4 @@
-package com.sp.sec.web.config;
-
+package com.sp.sec.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,14 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserLogin {
+public class Tokens {
 
-    public enum Type {
-        login,
-        refresh
-    }
-    private Type type;
-    private String username;
-    private String password;
+    private String accessToken;
     private String refreshToken;
+
 }

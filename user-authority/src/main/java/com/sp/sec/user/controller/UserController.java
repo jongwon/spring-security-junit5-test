@@ -1,4 +1,4 @@
-package com.sp.sec.web.controller;
+package com.sp.sec.user.controller;
 
 
 import com.sp.sec.user.domain.User;

@@ -4,21 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-dependencies</artifactId>
-		<version>2.3.4.RELEASE</version>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sp.sec</groupId>
-	<artifactId>user-authority</artifactId>
+	<artifactId>jwt-refresh-token-test</artifactId>
 	<version>1.0.0</version>
-	<name>user-authority</name>
-	<description>사용자 모듈</description>
+	<name>jwt-refresh-token-test</name>
+	<description>jwt-refresh-token-test</description>
 
 	<properties>
 		<java.version>11</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<dependencies>
@@ -29,6 +26,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -57,17 +58,57 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>user-authority</artifactId>
+			<version>1.0.0</version>
 		</dependency>
-        <dependency>
-            <groupId>com.sp.sec</groupId>
-            <artifactId>sp-web-util</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>user-authority</artifactId>
+			<version>1.0.0</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>sp-board</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>sp-board</artifactId>
+			<version>1.0.0</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>sp-jwt-security</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>sp-jwt-security</artifactId>
+			<version>1.0.0</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.sp.sec</groupId>
+			<artifactId>sp-web-util</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>

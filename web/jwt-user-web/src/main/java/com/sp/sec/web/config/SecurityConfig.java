@@ -19,16 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final ObjectMapper objectMapper;
-    private final SpJwtProperties spJwtProperties;
+    private final JWTUtil jwtUtil ;
 
-    private JWTUtil jwtUtil ;
-
-    public SecurityConfig(UserService userService, ObjectMapper objectMapper,
-                          SpJwtProperties spJwtProperties) {
+    public SecurityConfig(UserService userService, ObjectMapper objectMapper, JWTUtil jwtUtil) {
         this.userService = userService;
         this.objectMapper = objectMapper;
-        this.spJwtProperties = spJwtProperties;
-        this.jwtUtil = new JWTUtil(spJwtProperties);
+        this.jwtUtil = jwtUtil;
     }
 
 

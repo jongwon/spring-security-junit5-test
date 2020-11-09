@@ -39,7 +39,7 @@ public class BoardControllerIntegrationTest extends SpJwtTwoUserIntegrationTest 
 
         boardService.clearBoards();
         SpBoard board = SpBoardTestHelper.makeBoard(USER1, "title", "content");
-        String user1Token = getToken("user1@test.com", "user1123");
+        String user1Token = getToken("user1@test.com", "user1123").getAccessToken();
         ResponseEntity<SpBoard> response = restTemplate.exchange(uri("/board/save"), HttpMethod.POST, getPostAuthHeaderEntity(user1Token, board),
                 SpBoard.class);
         assertEquals(200, response.getStatusCodeValue());
@@ -52,7 +52,7 @@ public class BoardControllerIntegrationTest extends SpJwtTwoUserIntegrationTest 
     @DisplayName("1. user1이 게시글을 조회한다.")
     @Test
     void test_1() throws URISyntaxException, JsonProcessingException {
-        String user1Token = getToken("user1@test.com", "user1123");
+        String user1Token = getToken("user1@test.com", "user1123").getAccessToken();
         ResponseEntity<String> response = restTemplate.exchange(uri("/board/list"), HttpMethod.GET, getAuthHeaderEntity(user1Token), String.class);
         assertEquals(200, response.getStatusCodeValue());
         RestResponsePage<SpBoardSummary> page = objectMapper.readValue(response.getBody(), new TypeReference<RestResponsePage<SpBoardSummary>>() {
@@ -65,7 +65,7 @@ public class BoardControllerIntegrationTest extends SpJwtTwoUserIntegrationTest 
     @DisplayName("2. user1이 자신의 게시글을 삭제한다.")
     @Test
     void test_2() throws URISyntaxException {
-        String user1Token = getToken("user1@test.com", "user1123");
+        String user1Token = getToken("user1@test.com", "user1123").getAccessToken();
         ResponseEntity<SpBoard> response = restTemplate.exchange(uri("/board/%s", board.getBoardId()),
                 HttpMethod.DELETE, getAuthHeaderEntity(user1Token), SpBoard.class);
         assertEquals(200, response.getStatusCodeValue());
@@ -76,7 +76,7 @@ public class BoardControllerIntegrationTest extends SpJwtTwoUserIntegrationTest 
     @DisplayName("2-1. user1이 올린 게시글은 user2가 삭제하지 못한다.")
     @Test
     void test_2_1() throws URISyntaxException {
-        String user2Token = getToken("user2@test.com", "user2123");
+        String user2Token = getToken("user2@test.com", "user2123").getAccessToken();
         HttpClientErrorException excpetion = assertThrows(HttpClientErrorException.class, ()->{
             restTemplate.exchange(uri("/board/%s", board.getBoardId()),
                     HttpMethod.DELETE, getAuthHeaderEntity(user2Token), SpBoard.class);
@@ -89,7 +89,7 @@ public class BoardControllerIntegrationTest extends SpJwtTwoUserIntegrationTest 
     @Test
     void test_3() throws URISyntaxException {
         this.board.setTitle("title2");
-        String user1Token = getToken("user1@test.com", "user1123");
+        String user1Token = getToken("user1@test.com", "user1123").getAccessToken();
         ResponseEntity<SpBoard> response = restTemplate.exchange(uri("/board/save"),
                 HttpMethod.POST, getPostAuthHeaderEntity(user1Token, board),
                 SpBoard.class);
@@ -102,7 +102,7 @@ public class BoardControllerIntegrationTest extends SpJwtTwoUserIntegrationTest 
     @Test
     void test_3_1() throws URISyntaxException {
         this.board.setTitle("title2");
-        final String user2Token = getToken("user2@test.com", "user2123");
+        final String user2Token = getToken("user2@test.com", "user2123").getAccessToken();
         HttpClientErrorException excpetion = assertThrows(HttpClientErrorException.class, ()->{
             restTemplate.exchange(uri("/board/save"),
                     HttpMethod.POST, getPostAuthHeaderEntity(user2Token, board),

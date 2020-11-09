@@ -9,6 +9,9 @@
   }, {
     "name": "sp.jwt.token-life-time",
     "type": "java.lang.Long"
+  }, {
+    "name": "sp.jwt.token-refresh-time",
+    "type": "java.lang.Long"
   }],
   "hints": []
 }

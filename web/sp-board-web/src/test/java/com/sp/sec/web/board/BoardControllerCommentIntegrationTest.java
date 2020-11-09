@@ -44,13 +44,13 @@ public class BoardControllerCommentIntegrationTest extends SpJwtTwoUserIntegrati
 
         boardService.clearBoards();
         SpBoard writtenBoard = SpBoardTestHelper.makeBoard(USER1, "title", "content");
-        String user1Token = getToken("user1@test.com", "user1123");
+        String user1Token = getToken("user1@test.com", "user1123").getAccessToken();
         ResponseEntity<SpBoard> response = restTemplate.exchange(uri("/board/save"), HttpMethod.POST, getPostAuthHeaderEntity(user1Token, writtenBoard),
                 SpBoard.class);
         assertEquals(200, response.getStatusCodeValue());
         this.board = response.getBody();
         this.board.setWriter(USER1);
-        String user2Token = getToken("user2@test.com", "user2123");
+        String user2Token = getToken("user2@test.com", "user2123").getAccessToken();
         ResponseEntity<Comment> response2 = restTemplate.exchange(uri("/board/%s/comment", this.board.getBoardId()), HttpMethod.PUT,
                 getPostAuthHeaderEntity(user2Token, "comment1"), Comment.class);
         assertEquals(200, response2.getStatusCodeValue());
@@ -61,7 +61,7 @@ public class BoardControllerCommentIntegrationTest extends SpJwtTwoUserIntegrati
     @DisplayName("1. user2가 게시판에 댓글을 단다.")
     @Test
     void test_1() throws URISyntaxException {
-        String user2Token = getToken("user2@test.com", "user2123");
+        String user2Token = getToken("user2@test.com", "user2123").getAccessToken();
         ResponseEntity<SpBoard> resp = restTemplate.exchange(uri("/board/%s", this.board.getBoardId()), HttpMethod.GET, getAuthHeaderEntity(user2Token), SpBoard.class);
         assertEquals(200, resp.getStatusCodeValue());
         assertNotNull(resp.getBody().getCommentList());
@@ -71,7 +71,7 @@ public class BoardControllerCommentIntegrationTest extends SpJwtTwoUserIntegrati
     @DisplayName("2. user2가 자신이 단 댓글을 삭제한다.")
     @Test
     void test_2() throws URISyntaxException {
-        String user2Token = getToken("user2@test.com", "user2123");
+        String user2Token = getToken("user2@test.com", "user2123").getAccessToken();
         ResponseEntity<Boolean> resp = restTemplate.exchange(uri("/board/%s/comment/%s",
                 this.board.getBoardId(), this.comment.getCommentId()),
                 HttpMethod.DELETE, getAuthHeaderEntity(user2Token), Boolean.class);
@@ -86,7 +86,7 @@ public class BoardControllerCommentIntegrationTest extends SpJwtTwoUserIntegrati
     @DisplayName("2-1. user2가 단 댓글을 user1이 삭제하지 못한다.")
     @Test
     void test_2_1() throws URISyntaxException {
-        String user1Token = getToken("user1@test.com", "user1123");
+        String user1Token = getToken("user1@test.com", "user1123").getAccessToken();
         HttpClientErrorException exception = assertThrows(HttpClientErrorException.class, ()->{
             restTemplate.exchange(uri("/board/%s/comment/%s",
                 this.board.getBoardId(), this.comment.getCommentId()),
@@ -98,7 +98,7 @@ public class BoardControllerCommentIntegrationTest extends SpJwtTwoUserIntegrati
     @DisplayName("3. 댓글 리스트를 summary 리스트로 내려 봤을 때 댓글의 개수가 그대로 반영된다.")
     @Test
     void test_3() throws URISyntaxException, JsonProcessingException {
-        String user1Token = getToken("user1@test.com", "user1123");
+        String user1Token = getToken("user1@test.com", "user1123").getAccessToken();
         ResponseEntity<String> response = restTemplate.exchange(uri("/board/list"), HttpMethod.GET, getAuthHeaderEntity(user1Token), String.class);
         assertEquals(200, response.getStatusCodeValue());
         RestResponsePage<SpBoardSummary> page = objectMapper.readValue(response.getBody(), new TypeReference<RestResponsePage<SpBoardSummary>>() {

@@ -10,5 +10,6 @@ public class SpJwtProperties {
 
     private String secret = "default-secret-value";
     private long tokenLifeTime = 600;
+    private long tokenRefreshTime = 24*60*60; // 86400
 
 }
