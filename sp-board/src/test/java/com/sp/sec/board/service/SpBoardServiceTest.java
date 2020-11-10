@@ -108,8 +108,9 @@ class SpBoardServiceTest extends WithUserTest {
 
     @DisplayName("5. board summary list 를 가져온다.")
     @Test
-    void test_5() {
+    void test_5() throws InterruptedException {
         SpBoard board1 = boardTestHelper.createBoard(user1, "title1", "content1");
+        Thread.sleep(100);
         SpBoard board2 = boardTestHelper.createBoard(user1, "title2", "content2");
         boardTestHelper.createComment(board1.getBoardId(), user1, "comment1");
         boardTestHelper.createComment(board2.getBoardId(), user1, "comment1");

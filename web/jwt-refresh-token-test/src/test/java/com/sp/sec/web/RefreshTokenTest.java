@@ -38,17 +38,15 @@ public class RefreshTokenTest extends SpJwtRefreshableTwoUserIntegrationTest{
     @BeforeEach
     void before() throws URISyntaxException {
         prepareTwoUsers();
-
         boardService.clearBoards();
-        SpBoard board1 = SpBoardTestHelper.makeBoard(USER1, "title1", "content1");
-        SpBoard board2 = SpBoardTestHelper.makeBoard(USER1, "title2", "content2");
-        Tokens tokens = getToken("user1@test.com", "user1123");
+        Tokens tokens = 유저로그인("user1");
+        게시글을_작성한다(tokens, SpBoardTestHelper.makeBoard(USER1, "title1", "content1"));
+        게시글을_작성한다(tokens, SpBoardTestHelper.makeBoard(USER1, "title2", "content2"));
+    }
+
+    private void 게시글을_작성한다(Tokens tokens, SpBoard board1) throws URISyntaxException {
         ResponseEntity<SpBoard> response = restTemplate.exchange(uri("/board/save"),
                 HttpMethod.POST, getPostAuthHeaderEntity(tokens.getAccessToken(), board1),
-                SpBoard.class);
-        assertEquals(200, response.getStatusCodeValue());
-        response = restTemplate.exchange(uri("/board/save"),
-                HttpMethod.POST, getPostAuthHeaderEntity(tokens.getAccessToken(), board2),
                 SpBoard.class);
         assertEquals(200, response.getStatusCodeValue());
     }
@@ -56,9 +54,22 @@ public class RefreshTokenTest extends SpJwtRefreshableTwoUserIntegrationTest{
     @DisplayName("1. user2 가 게시물을 조회하고, 일정 시간이 지나 토큰이 만료된 후 다시 조회한다.")
     @Test
     void test_1() throws URISyntaxException, JsonProcessingException, InterruptedException {
-        jwtUtil.getProperties().setTokenLifeTime(1);
+        토큰타임을_1초로_맞춘다();
 
-        Tokens tokens = getToken("user2@test.com", "user2123");
+        final Tokens 첫번째토큰 = 유저로그인("user2");
+        게시판의_게시글이_2개인걸_확인한다(첫번째토큰);
+
+        Thread.sleep(2000);
+
+        assertThrows(HttpClientErrorException.class, ()->{
+            게시판의_게시글이_2개인걸_확인한다(첫번째토큰);
+        });
+
+        Tokens 다시얻은토큰 = getRefreshToken(첫번째토큰.getRefreshToken());
+        게시판의_게시글이_2개인걸_확인한다(다시얻은토큰);
+    }
+
+    private void 게시판의_게시글이_2개인걸_확인한다(Tokens tokens) throws URISyntaxException, JsonProcessingException {
         ResponseEntity<String> response = restTemplate.exchange(uri("/board/list"),
                 HttpMethod.GET, getAuthHeaderEntity(tokens.getAccessToken()), String.class);
         assertEquals(200, response.getStatusCodeValue());
@@ -66,22 +77,15 @@ public class RefreshTokenTest extends SpJwtRefreshableTwoUserIntegrationTest{
                 new TypeReference<RestResponsePage<SpBoardSummary>>() {
         });
         assertEquals(2, page.getTotalElements());
-
-
-        Thread.sleep(2000);
-
-        assertThrows(HttpClientErrorException.class, ()->{
-            restTemplate.exchange(uri("/board/list"),
-                    HttpMethod.GET, getAuthHeaderEntity(tokens.getAccessToken()), String.class);
-        });
-
-        Tokens refreshedTokens = getRefreshToken(tokens.getRefreshToken());
-        response = restTemplate.exchange(uri("/board/list"),
-                HttpMethod.GET, getAuthHeaderEntity(refreshedTokens.getAccessToken()), String.class);
-        assertEquals(200, response.getStatusCodeValue());
-        RestResponsePage<SpBoardSummary> page2 = objectMapper.readValue(response.getBody(),
-                new TypeReference<RestResponsePage<SpBoardSummary>>() {
-                });
-        assertEquals(2, page2.getTotalElements());
     }
+
+    private Tokens 유저로그인(String name) throws URISyntaxException {
+        return getToken(name+"@test.com", name+"123");
+    }
+
+    private void 토큰타임을_1초로_맞춘다() {
+        jwtUtil.getProperties().setTokenLifeTime(1);
+    }
+
+
 }
