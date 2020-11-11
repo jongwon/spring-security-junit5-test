@@ -1,0 +1,7 @@
+
+
+sp:
+  jwt:
+    secret: auth-server-1
+    token-life-time: 100
+    token-refresh-time: 10000

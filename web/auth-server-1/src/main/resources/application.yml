@@ -1,0 +1,17 @@
+server:
+  port: 9001
+
+
+sp:
+  jwt:
+    secret: auth-server-1
+    token-life-time: 100
+    token-refresh-time: 10000
+
+
+spring:
+  data:
+    mongodb:
+      database: auth-server-1
+      host: localhost
+      port: 27018
