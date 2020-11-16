@@ -1,0 +1,15 @@
+server:
+  port: 9006
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 377825014181-2tpha7niq0hjar86e4j8h6dl0h8j1s3i.apps.googleusercontent.com
+            client-secret: yyHXhXWBRrx3jyDWrhiSwzu8
+  data:
+    mongodb:
+      database: google-client-4
+      host: localhost
+      port: 27018
