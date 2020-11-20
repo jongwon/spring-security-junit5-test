@@ -31,8 +31,8 @@ import java.util.stream.StreamSupport;
 @Service
 public class UserService implements UserDetailsService {
 
-    private final MongoTemplate mongoTemplate;
-    private final UserRepository userRepository;
+    protected final MongoTemplate mongoTemplate;
+    protected final UserRepository userRepository;
 
     public UserService(MongoTemplate mongoTemplate, UserRepository userRepository) {
         this.mongoTemplate = mongoTemplate;

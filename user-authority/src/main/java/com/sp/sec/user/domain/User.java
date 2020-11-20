@@ -26,6 +26,7 @@ public class User implements UserDetails {
     @Indexed(unique = true)
     private String email;
     private String name;
+    private String picUrl;
 
     @JsonIgnore
     private String password;

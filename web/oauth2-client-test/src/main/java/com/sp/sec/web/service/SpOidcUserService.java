@@ -11,6 +11,9 @@ public class SpOidcUserService extends OidcUserService {
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser user = super.loadUser(userRequest);
+
+        // TODO : ExtendedUser 를 생성을 보장한다.
+
         return user;
     }
 }
