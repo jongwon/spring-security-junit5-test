@@ -1,9 +1,11 @@
 package com.sp.sec.web.config;
 
+import com.sp.sec.user.oauth2.service.ExtendedUserService;
 import com.sp.sec.web.service.SpOAuth2UserService;
 import com.sp.sec.web.service.SpOidcUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,29 +27,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SpOidcUserService oidcUserService;
 
+    @Autowired
+    private ExtendedUserService extendedUserService;
 
-    @Bean
-    UserDetailsService users() {
-        UserDetails user1 = User.builder()
-                .username("user1")
-                .password(passwordEncoder().encode("1234"))
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("1234"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1, admin);
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(extendedUserService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 
     @Override
